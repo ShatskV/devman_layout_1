@@ -3,8 +3,12 @@ from multiprocessing.spawn import WINSERVICE
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
-from pprint import pprint
 import pandas
+
+
+EXCEL_WINE = "wine_table.xlsx"
+EXCEL_SHEET = 'Вина'
+
 
 def get_name_year(years):
     remainder = years % 10
@@ -47,8 +51,8 @@ def main():
         autoescape=select_autoescape(['html', 'xml'])
     )
 
-    excel_file = 'wine3.xlsx'
-    sheet = 'Лист1'
+    excel_file = EXCEL_WINE
+    sheet = EXCEL_SHEET
     wine_data = get_excel_data(excel_file, sheet)
     wines = make_wines(wine_data)
     # сортируем словарь, чтобы вина были первыми, потом напитки
