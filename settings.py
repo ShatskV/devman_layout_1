@@ -6,15 +6,16 @@ from dotenv import load_dotenv
 DEFAULT_ENVPATH = '.env'
 DEFAULT_EXCELPATH = 'wine_table.xlsx'
 DEFAULT_SHEET = 'Вина'
+YEAR_FOUNDATION = 1920
 
 
 def get_excel_name_and_sheet(args):
     if args.method == "env":
-        load_dotenv(args.penv)
+        load_dotenv(args.envpath)
         excel_filepath = os.getenv('EXCEL_FILEPATH', default=DEFAULT_EXCELPATH)
         excel_sheet = os.getenv('EXCEL_SHEET', default=DEFAULT_SHEET)
     else:
-        excel_filepath = args.pex
+        excel_filepath = args.excelpath
         excel_sheet = args.sheet
     return excel_filepath, excel_sheet
 
@@ -23,7 +24,7 @@ def parse_terminal_commands():
     parser = argparse.ArgumentParser(
     description='Описание что делает программа:'
                 )
-    parser.add_argument("method", choices=['exc', 'env'], help="Выбор метода указания пути к Excel файлу: "
+    parser.add_argument("-m", "--method", choices=['exc', 'env'], help="Выбор метода указания пути к Excel файлу: "
                         "и имени листа с винами, 'env' - из файла .env, "
                         "'exc' - из консоли'",
                         default="env")

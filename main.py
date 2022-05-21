@@ -4,10 +4,7 @@ from http.server import HTTPServer, SimpleHTTPRequestHandler
 import pandas
 from dateutil.relativedelta import relativedelta
 from jinja2 import Environment, FileSystemLoader, select_autoescape
-from settings import return_filepath_and_sheet
-
-EXCEL_FILENAME = "wine_table.xlsx"
-EXCEL_SHEETNAME = 'Вина'
+from settings import return_filepath_and_sheet, YEAR_FOUNDATION
 
 
 def get_name_year(years):
@@ -38,8 +35,8 @@ def get_excel_data(filepath, sheet_name):
     return wine_data
 
 
-def get_years():
-    date_start = datetime(1920, 1, 1)
+def years_from_foundation():
+    date_start = datetime(YEAR_FOUNDATION, 1, 1)
     date_now = datetime.now()
     years = relativedelta(date_now, date_start).years
     return years
@@ -51,12 +48,18 @@ def main():
         autoescape=select_autoescape(['html', 'xml'])
     )
     filepath, sheet_name = return_filepath_and_sheet()
-    wine_data = get_excel_data(filepath, sheet_name)
+    try:
+        wine_data = get_excel_data(filepath, sheet_name)
+    except FileNotFoundError:
+        return print('Такого файла не существует!')
+    except ValueError:
+        return print('Такого листа в файле нет!')
+
     wines = make_wines(wine_data)
     wines = sorted(wines.items())
     
     template = env.get_template('template.html')
-    years = get_years()
+    years = years_from_foundation()
     name_year = get_name_year(years)
     rendered_page = template.render(
         years=years, 
@@ -73,3 +76,6 @@ def main():
 
 if __name__ == '__main__':
     main()
+    # get_excel_data('wine_table.xlsx', 'df')
+    # main()
+    
