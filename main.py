@@ -1,13 +1,13 @@
-from http.server import HTTPServer, SimpleHTTPRequestHandler
-from multiprocessing.spawn import WINSERVICE
-from jinja2 import Environment, FileSystemLoader, select_autoescape
 from datetime import datetime
-from dateutil.relativedelta import relativedelta
+from http.server import HTTPServer, SimpleHTTPRequestHandler
+
 import pandas
+from dateutil.relativedelta import relativedelta
+from jinja2 import Environment, FileSystemLoader, select_autoescape
+from settings import return_filepath_and_sheet
 
-
-EXCEL_WINE = "wine_table.xlsx"
-EXCEL_SHEET = 'Вина'
+EXCEL_FILENAME = "wine_table.xlsx"
+EXCEL_SHEETNAME = 'Вина'
 
 
 def get_name_year(years):
@@ -29,9 +29,9 @@ def make_wines(wine_data):
     return wines
 
 
-def get_excel_data(file, sheet):
-    excel_data_df = pandas.read_excel(file, sheet_name=sheet,
-                                      usecols=["Категория", "Название", "Сорт", "Цена", "Картинка", "Акция"],
+def get_excel_data(filepath, sheet_name):
+    excel_data_df = pandas.read_excel(filepath, sheet_name=sheet_name,
+                                    #   usecols=["Категория", "Название", "Сорт", "Цена", "Картинка", "Акция"],
                                       na_values='NaN', keep_default_na=False)
     excel_data_df = excel_data_df.astype({'Цена': 'int32'})
     wine_data = excel_data_df.to_dict(orient='records')
@@ -50,12 +50,9 @@ def main():
         loader=FileSystemLoader('.'),
         autoescape=select_autoescape(['html', 'xml'])
     )
-
-    excel_file = EXCEL_WINE
-    sheet = EXCEL_SHEET
-    wine_data = get_excel_data(excel_file, sheet)
+    filepath, sheet_name = return_filepath_and_sheet()
+    wine_data = get_excel_data(filepath, sheet_name)
     wines = make_wines(wine_data)
-    # сортируем словарь, чтобы вина были первыми, потом напитки
     wines = sorted(wines.items())
     
     template = env.get_template('template.html')
