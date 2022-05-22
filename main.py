@@ -5,8 +5,9 @@ from http.server import HTTPServer, SimpleHTTPRequestHandler
 import pandas
 from dateutil.relativedelta import relativedelta
 from jinja2 import Environment, FileSystemLoader, select_autoescape
-from settings import return_filepath_and_sheet, YEAR_FOUNDATION
-from pprint import pprint
+
+from settings import YEAR_FOUNDATION, return_filepath_and_sheet
+
 
 def get_name_year(years):
     remainder = years % 10
