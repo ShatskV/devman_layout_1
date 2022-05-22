@@ -6,7 +6,7 @@ import pandas
 from dateutil.relativedelta import relativedelta
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 from settings import return_filepath_and_sheet, YEAR_FOUNDATION
-
+from pprint import pprint
 
 def get_name_year(years):
     remainder = years % 10
@@ -55,9 +55,7 @@ def main():
         return print('Такого листа в файле нет!')
 
     wines_by_categories = make_wine_dict_by_category(wine_list)
-    # wines = sorted(wines.items())
     categories = sorted(wines_by_categories.keys())
-    print(categories)
     
     template = env.get_template('template.html')
     years = years_from_foundation()
@@ -65,7 +63,8 @@ def main():
     rendered_page = template.render(
         years=years, 
         name_year=name_year,
-        # wines=wines,
+        wines=wines_by_categories,
+        categories=categories
     )
 
     with open('index.html', 'w', encoding="utf8") as file:
