@@ -6,7 +6,8 @@
 
 - Скачайте код
 
-- Установите пакеты командой 
+- Установите пакеты командой:
+
   ```pip install -r requirements.txt```
 
 - Заполните таблицу в excel, образец находится в репозитории: **wine_table.xlsx**, можете сохранить под любым названием, но с тем же расширением. Лист с таблицей в файле может также назвать своим именем (по умолчанию - **Вина**). Ниже продубрирован пример таблицы:
@@ -32,20 +33,27 @@
          -h, --help            show this help message and exit
          -m {exc,env}, --method {exc,env}
                                Выбор метода указания пути к Excel файлу и имени листа с винами: 'env' - из файла
-                               .env, 'exc' - из консоли, (по умолчанию env)
+                               .env, 'exc' - из консоли, (по умолчанию метод env)
          -pexc EXCELPATH, --excelpath EXCELPATH
-                              Путь к файлу Excel (по умолчанию - 'wine_table.xlsx'
+                              Путь к файлу Excel (по умолчанию - 'wine_table.xlsx')
          -penv ENVPATH, --envpath ENVPATH
-                              Путь к файлу .env (по умолчанию - '.env')
+                              Путь до папки с файлом .env (по умолчанию - '.env')
          -s SHEET, --sheet SHEET
                               Имя листа в файле Excel (По умолчанию - 'Вина)'
     ```
   - Если не указать аргументы, то значения путей и имен будут по умолчанию (см. выше)
 
 - Запустите сайт командой c указанием аргументов или без, примеры:
-  ```python3 main.py```
-  ```python3 main.py -m env -penv files/.env```
-  ```python3 main.py -m exc -pexc files/wines.xlsx -s Wines```
+
+  ```
+     python3 main.py
+  ```
+  ```
+     python3 main.py -m env -penv files/
+  ```
+  ```
+     python3 main.py -m exc -pexc files/wines.xlsx -s Wines
+  ```
 
 - Перейдите на сайт по адресу [http://127.0.0.1:8000](http://127.0.0.1:8000).
 
