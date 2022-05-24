@@ -114,7 +114,7 @@
           </div>
         </div>
         
-        {% for category in categories %}
+        {% for category, wines_by_category in wines|dictsort %}
           <div class="row">
             <div class="col-12 section-title text-center mb-5">
               <h2 class="d-block">{{category}}</h2>
@@ -123,7 +123,7 @@
           
           <div class="row">
 
-            {% for wine in wines[category] %}
+            {% for wine in wines_by_category %}
               <div class="col-lg-4 mb-5 col-md-6">
                 <div class="wine_v_1 text-center pb-4 pt-5">
                   <img src="images/{{wine.Картинка}}" alt="Image" class="img-fluid">
@@ -156,6 +156,14 @@
         <div class="row justify-content-center text-center align-items-center">
           <div class="col-md-8">
             <h2 style="font-size: 3rem;">проверено временем</h2>
+            {% set remainder = years % 10 %}
+            {% if remainder == 1 %}
+              {% set name_year = 'год' %}
+            {% elif (remainder > 1) and (remainder < 5) %}
+              {% set name_year = 'года' %}
+            {% else %}
+              {% set name_year = 'лет' %}
+            {% endif %}
             <span class="sub-title" style="font-size: 2.5rem;">Уже {{years}} {{name_year}} с вами</span>
           </div>
         </div>
