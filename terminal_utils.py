@@ -1,24 +1,4 @@
 import argparse
-import os
-
-from dotenv import load_dotenv
-
-
-DEFAULT_ENVPATH = '.env'
-DEFAULT_EXCELPATH = 'wine_table.xlsx'
-DEFAULT_SHEET = 'Вина'
-YEAR_FOUNDATION = 1920
-
-
-def get_excel_name_and_sheet(args):
-    if args.method == "env":
-        load_dotenv(args.envpath)
-        excel_filepath = os.getenv('EXCEL_FILEPATH')
-        excel_sheet = os.getenv('EXCEL_SHEET')
-    else:
-        excel_filepath = args.excelpath
-        excel_sheet = args.sheet
-    return excel_filepath, excel_sheet
 
 
 def parse_terminal_commands(default_excelpath, default_envpath, default_sheet):
@@ -40,9 +20,3 @@ def parse_terminal_commands(default_excelpath, default_envpath, default_sheet):
     
     args = parser.parse_args()
     return args
-
-
-def return_filepath_and_sheet(**kwargs):
-    args = parse_terminal_commands(**kwargs)
-    filepath, excel_sheet = get_excel_name_and_sheet(args)
-    return filepath, excel_sheet
